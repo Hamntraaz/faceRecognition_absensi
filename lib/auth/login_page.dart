@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_field.dart';
 import '../services/auth_service.dart';
@@ -36,23 +38,43 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => _isLoading = false);
 
     if (result["status"] == "Success") {
-      // 1. CEK STATUS PENDAFTARAN WAJAH
-      if (result["isFaceRegistered"] == false) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Anda belum mendaftarkan wajah. Silakan scan dulu.")),
-        );
-        Navigator.pushReplacementNamed(context, '/scan');
-      } else {
-        // 2. CEK ROLE UNTUK MENENTUKAN DASHBOARD (FIXED)
-        if (result["role"] == "admin") {
-          Navigator.pushReplacementNamed(context, '/home_admin');
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // Ambil data terbaru dari Firestore untuk mendapatkan embedding wajah
+        var userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+        var userData = userDoc.data();
+
+        // Cek apakah data wajah sudah ada
+        bool hasFace = userData != null &&
+            userData['face_embedding'] != null &&
+            (userData['face_embedding'] as List).isNotEmpty;
+
+        if (!hasFace) {
+          // Jika belum ada wajah, arahkan untuk pendaftaran pertama kali
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Anda belum mendaftarkan wajah. Silakan scan dulu.")),
+          );
+          Navigator.pushReplacementNamed(
+              context,
+              '/scan',
+              arguments: {'isVerifikasi': false} // Mode Daftar
+          );
         } else {
-          Navigator.pushReplacementNamed(context, '/home_user');
+          // JIKA SUDAH ADA, WAJIB VERIFIKASI WAJAH DULU SEBELUM KE HOME
+          Navigator.pushReplacementNamed(
+              context,
+              '/scan',
+              arguments: {
+                'isVerifikasi': true, // Mode Verifikasi Login
+                'embeddingAsli': userData['face_embedding'],
+                'role': userData['role'] ?? 'user'
+              }
+          );
         }
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result["status"] ?? "Login Gagal")),
+        SnackBar(content: Text(result["message"] ?? "Login Gagal")),
       );
     }
   }

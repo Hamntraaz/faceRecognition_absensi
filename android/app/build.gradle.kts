@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.face_absensi"
-    compileSdk = 36 // Sesuai permintaan library camera & image_picker terbaru
+    compileSdk = 36
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -30,6 +30,10 @@ android {
         versionName = flutterVersionName
     }
 
+    androidResources {
+        noCompress += listOf("tflite", "lite")
+    }
+
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("debug")
@@ -41,7 +45,6 @@ flutter {
     source = "../.."
 }
 
-// FIX: Syntax Kotlin DSL yang benar untuk memaksa namespace pada sub-proyek
 subprojects {
     afterEvaluate {
         val p = this
@@ -49,7 +52,7 @@ subprojects {
             val androidExtensions = p.extensions.findByName("android")
             if (androidExtensions is com.android.build.gradle.BaseExtension) {
                 if (androidExtensions.namespace == null) {
-                    androidExtensions.namespace = p.group.toString()
+                    androidExtensions.namespace = "com.tflite.flutter.proxy"
                 }
             }
         }
