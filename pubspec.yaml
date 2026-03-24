@@ -1,0 +1,48 @@
+name: face_absensi
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.0.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+
+  # Firebase
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+  cloud_firestore: ^5.4.4
+
+  # ML & Kamera
+  google_mlkit_face_detection: ^0.11.0
+  camera: ^0.11.0+2
+  screen_brightness: ^2.1.7
+
+  # Utils & UI
+  cloudinary_public: ^0.23.1
+  flutter_native_splash: ^2.4.0
+  path_provider: ^2.1.1
+  intl: ^0.19.0
+  image_picker: ^1.0.7
+  image_cropper: ^8.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/logoAbsen.png
+  android_12:
+    image: assets/logoAbsen.png
+  android_gravity: center
+  fullscreen: true
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/logoAbsen.png

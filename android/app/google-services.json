@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "183635646847",
+    "project_id": "absensifaceapp-mahaputra",
+    "storage_bucket": "absensifaceapp-mahaputra.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183635646847:android:daffd73ea963d10f6c624a",
+        "android_client_info": {
+          "package_name": "com.absesnsi.app.maha.absensi_face_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj8wfu7Snzh0kGrYomfWV4gyxJMZrUtDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183635646847:android:49e1ba6767cb00ce6c624a",
+        "android_client_info": {
+          "package_name": "com.example.face_absensi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj8wfu7Snzh0kGrYomfWV4gyxJMZrUtDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
